@@ -27,7 +27,10 @@ import {
     Battery,
     Fuel,
     MessageCircle,
-    Check
+    Check,
+    Clock,
+    Star,
+    CreditCard
 } from 'lucide-react';
 
 export const Icons = {
@@ -59,5 +62,8 @@ export const Icons = {
     Battery: Battery,
     Fuel: Fuel,
     MessageCircle: MessageCircle,
-    Check: Check
+    Check: Check,
+    Clock: Clock,
+    Star: Star,
+    CreditCard: CreditCard
 };

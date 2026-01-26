@@ -942,36 +942,220 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    // Trigger animation on mount
     setTimeout(() => setShow(true), 100);
   }, []);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className={`absolute top-[-10%] right-[-10%] w-64 h-64 bg-green-50 rounded-full blur-3xl transition-opacity duration-1000 ${show ? 'opacity-100' : 'opacity-0'}`} />
-        <div className={`absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-blue-50 rounded-full blur-3xl transition-opacity duration-1000 delay-300 ${show ? 'opacity-100' : 'opacity-0'}`} />
+    <div className="bg-white min-h-screen flex flex-col relative overflow-hidden">
+      {/* Top Map Section (40%) */}
+      <div className="absolute top-0 left-0 right-0 h-[45%] z-0">
+        <MapContainer className="h-full w-full" zoom={1.2}>
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('home')}
+            className="absolute top-14 left-5 z-30 bg-white/90 backdrop-blur-md p-2.5 rounded-full shadow-md active:scale-95 transition-transform text-slate-700 hover:text-slate-900"
+          >
+            <Icons.ArrowLeft className="w-6 h-6" />
+          </button>
+
+          {/* Driver Pin */}
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ${show ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative">
+              <div className="w-12 h-12 bg-slate-900 rounded-full border-4 border-white shadow-xl flex items-center justify-center z-20 relative">
+                <Icons.Car className="w-6 h-6 text-white" />
+              </div>
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 rotate-45 z-10"></div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md text-[10px] font-bold mt-2 whitespace-nowrap">
+                3 min away
+              </div>
+            </div>
+          </div>
+        </MapContainer>
+        {/* Gradient Overlay for better text contrast if needed, or just to blend */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-10" />
       </div>
 
-      <div className={`z-10 flex flex-col items-center transition-all duration-700 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        {/* Animated Icon */}
-        <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-8 relative">
-          <div className={`absolute inset-0 border-4 border-green-200 rounded-full ${show ? 'animate-ping opacity-20' : 'opacity-0'}`} />
-          <Icons.Check className={`w-10 h-10 text-green-600 transition-all duration-500 delay-300 ${show ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}`} strokeWidth={3} />
+      {/* Bottom Sheet Details (60%) */}
+      <div className={`absolute bottom-0 left-0 right-0 h-[60%] bg-white rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-50 flex flex-col transition-transform duration-500 ${show ? 'translate-y-0' : 'translate-y-full'}`}>
+        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 shrink-0" />
+
+        <div className="flex-1 overflow-y-auto px-6 pb-6 pt-2">
+          {/* Header */}
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900">{params?.title || 'Service Requested'}</h2>
+              <p className="text-slate-500 text-sm mt-1">Request ID: #QIC-{Math.floor(Math.random() * 10000)}</p>
+            </div>
+            <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              Active
+            </div>
+          </div>
+
+          {/* ETA Card */}
+          <div className="bg-slate-50 rounded-2xl p-4 flex items-center justify-between mb-6 border border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-900">
+                <Icons.Clock className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 font-bold uppercase">Estimated Arrival</p>
+                <p className="text-lg font-bold text-slate-900">10:42 AM <span className="text-slate-400 font-normal text-sm">(12 min)</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Driver/Provider Info */}
+          <div className="mb-8">
+            <h3 className="font-bold text-slate-900 mb-3">Service Provider</h3>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-14 bg-slate-200 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                  <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100" alt="Driver" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900">Ahmed Al-Sayed</h4>
+                  <div className="flex items-center gap-1 text-xs text-slate-500">
+                    <Icons.Star className="w-3 h-3 text-yellow-400 fill-current" />
+                    <span className="font-bold text-slate-700">4.9</span>
+                    <span>•</span>
+                    <span>Recovery Specialist</span>
+                  </div>
+                </div>
+              </div>
+              <button className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/30 active:scale-95 transition-transform">
+                <Icons.Phone className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Vehicle Details */}
+          <div className="mb-8">
+            <h3 className="font-bold text-slate-900 mb-3">Vehicle Details</h3>
+            <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
+              <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400">
+                <Icons.Car className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-bold text-slate-900">Recovery Truck</p>
+                <p className="text-xs text-slate-500">White • Plate: 123456</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Payment Info */}
+          <div className="mb-8">
+            <h3 className="font-bold text-slate-900 mb-3">Payment</h3>
+            <div className="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-600">
+                  <Icons.CreditCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500">Estimated Cost</p>
+                  <p className="font-bold text-slate-900">QAR 150.00</p>
+                </div>
+              </div>
+              <span className="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded-md">Apple Pay</span>
+            </div>
+          </div>
+
+          {/* Safety Note */}
+          <div className="mb-8 bg-blue-50 p-4 rounded-2xl flex gap-3 items-start">
+            <Icons.Shield className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-bold text-sm text-blue-900">Safety First</h4>
+              <p className="text-xs text-blue-700 mt-1 leading-relaxed">Please stay in a safe location away from traffic while waiting for assistance. Keep your hazard lights on.</p>
+            </div>
+          </div>
+
+          {/* What Happens Next */}
+          <div className="mb-8">
+            <h3 className="font-bold text-slate-900 mb-3">What Happens Next?</h3>
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">1</div>
+                <p className="text-sm text-slate-600">Driver arrives at your location</p>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">2</div>
+                <p className="text-sm text-slate-600">Quick vehicle inspection</p>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">3</div>
+                <p className="text-sm text-slate-600">Service performance & completion</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Order Summary */}
+          <div className="mb-8">
+            <h3 className="font-bold text-slate-900 mb-3">Order Summary</h3>
+            <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-500">Base Fee</span>
+                <span className="font-medium text-slate-900">QAR 100.00</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-500">Service Fee</span>
+                <span className="font-medium text-slate-900">QAR 50.00</span>
+              </div>
+              <div className="border-t border-slate-200 my-2 pt-2 flex justify-between font-bold">
+                <span className="text-slate-900">Total</span>
+                <span className="text-slate-900">QAR 150.00</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Need Help */}
+          <div className="mb-8 text-center">
+            <p className="text-sm text-slate-500 mb-2">Need help with this request?</p>
+            <button className="text-brand-600 font-bold text-sm">Contact Support</button>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative pl-4 space-y-6 mb-8">
+            <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-100" />
+
+            <div className="relative flex items-center gap-4">
+              <div className="w-4 h-4 rounded-full bg-green-500 border-4 border-white shadow-sm z-10" />
+              <div>
+                <p className="font-bold text-slate-900 text-sm">Request Confirmed</p>
+                <p className="text-xs text-slate-400">10:30 AM</p>
+              </div>
+            </div>
+            <div className="relative flex items-center gap-4">
+              <div className="w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm z-10 ring-4 ring-blue-100" />
+              <div>
+                <p className="font-bold text-slate-900 text-sm">En Route</p>
+                <p className="text-xs text-slate-400">Driver is on the way</p>
+              </div>
+            </div>
+            <div className="relative flex items-center gap-4 opacity-50">
+              <div className="w-4 h-4 rounded-full bg-slate-200 border-4 border-white z-10" />
+              <div>
+                <p className="font-bold text-slate-900 text-sm">Arrived</p>
+                <p className="text-xs text-slate-400">Estimated 10:42 AM</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 mt-auto">
+            <button
+              onClick={() => navigate('home')}
+              className="flex-1 py-4 rounded-2xl font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => navigate('home')}
+              className="flex-[2] py-4 rounded-2xl font-bold text-white bg-slate-900 shadow-xl shadow-slate-200 active:scale-95 transition-transform"
+            >
+              Done
+            </button>
+          </div>
         </div>
-
-        <h1 className="text-3xl font-bold text-slate-900 text-center mb-3">{params?.title || 'Success!'}</h1>
-        <p className="text-slate-500 text-center leading-relaxed mb-12 max-w-xs">{params?.message || 'Your request has been received.'}</p>
-      </div>
-
-      <div className={`w-full max-w-xs z-10 transition-all duration-700 delay-500 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <button
-          onClick={() => navigate('home')}
-          className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-slate-200 active:scale-95 transition-transform hover:bg-slate-800"
-        >
-          Done
-        </button>
       </div>
     </div>
   );
