@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Icons } from './components/Icons';
 import { ScreenName, TabName, ChatMessage, NavigationState, Charger } from './types';
 import { askGemini } from './services/gemini';
+import dohaMap from './assets/doha_map.png';
 
 // --- Components ---
 
@@ -83,6 +84,8 @@ const BottomNav = ({ activeTab, onTabChange }: { activeTab: TabName, onTabChange
 
 // --- Map Component ---
 
+// --- Map Component ---
+
 const MapContainer = ({
   children,
   className = "",
@@ -98,12 +101,12 @@ const MapContainer = ({
     <div className={`relative overflow-hidden bg-slate-100 ${className}`}>
       {/* Map Background Pattern */}
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-100"
         style={{
-          backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/e/ec/Map_of_Doha.png')`, // Static map placeholder for visual context
+          backgroundImage: `url(${dohaMap})`, // AI Generated clean map
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: dark ? 'invert(1) hue-rotate(180deg) grayscale(0.5)' : 'grayscale(0.2)',
+          filter: dark ? 'invert(1) hue-rotate(180deg) grayscale(0.2) contrast(1.2)' : 'grayscale(0) contrast(1.0)',
           transform: `scale(${zoom})`
         }}
       />
@@ -600,9 +603,10 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
   const filtered = filter === 'All' ? chargers : chargers.filter(c => c.speed === filter);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col">
-      <div className="relative flex-1">
-        <MapContainer className="h-full w-full absolute inset-0" zoom={1.2}>
+    <div className="bg-white h-screen flex flex-col relative overflow-hidden">
+      {/* Map Area - Fixed Height or Flex Grow */}
+      <div className="absolute inset-0 z-0 h-[60%]">
+        <MapContainer className="h-full w-full" zoom={1.2}>
           {/* Render Generic Pins on Map */}
           {filtered.map((c, i) => (
             <div key={c.id} className="absolute" style={{ top: `${c.lat}%`, left: `${c.lng}%` }}>
@@ -615,31 +619,31 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
             </div>
           ))}
         </MapContainer>
+      </div>
 
-        {/* Floating Header */}
-        <div className="absolute top-14 left-4 right-4 z-20 flex justify-between items-start pointer-events-none">
-          <button onClick={() => navigate('ev_assistance')} className="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center pointer-events-auto">
-            <Icons.ArrowLeft className="w-5 h-5 text-slate-800" />
-          </button>
-          <div className="bg-white rounded-2xl shadow-lg p-1.5 flex gap-1 pointer-events-auto">
-            {(['All', 'Fast', 'Slow'] as const).map(f => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${filter === f ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
+      {/* Floating Header */}
+      <div className="absolute top-14 left-4 right-4 z-20 flex justify-between items-start pointer-events-none">
+        <button onClick={() => navigate('ev_assistance')} className="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center pointer-events-auto">
+          <Icons.ArrowLeft className="w-5 h-5 text-slate-800" />
+        </button>
+        <div className="bg-white rounded-2xl shadow-lg p-1.5 flex gap-1 pointer-events-auto">
+          {(['All', 'Fast', 'Slow'] as const).map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${filter === f ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+            >
+              {f}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Bottom Sheet */}
-      <div className="bg-white rounded-t-[32px] shadow-[0_-5px_20px_rgba(0,0,0,0.1)] p-6 relative z-10 -mt-6">
-        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6" />
+      {/* Bottom Sheet - Absolute Positioned */}
+      <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-white rounded-t-[32px] shadow-[0_-5px_20px_rgba(0,0,0,0.1)] p-6 z-10 overflow-y-auto">
+        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6 sticky top-0" />
         <h2 className="font-bold text-xl text-slate-900 mb-4">Nearby Stations</h2>
-        <div className="space-y-4">
+        <div className="space-y-4 pb-4">
           {filtered.map(c => (
             <div key={c.id} className="flex items-center justify-between p-3 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-colors">
               <div className="flex items-center gap-4">
@@ -935,26 +939,40 @@ const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, p
 
 // 9. Success Confirmation Screen
 const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) => void, params?: any }) => {
-  return (
-    <div className="bg-green-600 min-h-screen flex flex-col items-center justify-center text-white p-8 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-500 to-green-700"></div>
+  const [show, setShow] = useState(false);
 
-      <div className="z-10 w-24 h-24 bg-white rounded-full flex items-center justify-center mb-8 shadow-xl animate-bounce">
-        <Icons.Home className="w-10 h-10 text-green-600" /> {/* Using Check if available or generic */}
-        <div className="absolute">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-green-600"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        </div>
+  useEffect(() => {
+    // Trigger animation on mount
+    setTimeout(() => setShow(true), 100);
+  }, []);
+
+  return (
+    <div className="bg-white min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className={`absolute top-[-10%] right-[-10%] w-64 h-64 bg-green-50 rounded-full blur-3xl transition-opacity duration-1000 ${show ? 'opacity-100' : 'opacity-0'}`} />
+        <div className={`absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-blue-50 rounded-full blur-3xl transition-opacity duration-1000 delay-300 ${show ? 'opacity-100' : 'opacity-0'}`} />
       </div>
 
-      <h1 className="text-3xl font-bold z-10 text-center mb-4">{params?.title || 'Success!'}</h1>
-      <p className="text-green-100 text-center z-10 leading-relaxed mb-10 max-w-xs">{params?.message || 'Your request has been received.'}</p>
+      <div className={`z-10 flex flex-col items-center transition-all duration-700 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        {/* Animated Icon */}
+        <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-8 relative">
+          <div className={`absolute inset-0 border-4 border-green-200 rounded-full ${show ? 'animate-ping opacity-20' : 'opacity-0'}`} />
+          <Icons.Check className={`w-10 h-10 text-green-600 transition-all duration-500 delay-300 ${show ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}`} strokeWidth={3} />
+        </div>
 
-      <button
-        onClick={() => navigate('home')}
-        className="z-10 bg-white text-green-700 px-8 py-4 rounded-2xl font-bold shadow-lg w-full max-w-xs active:scale-95 transition-transform"
-      >
-        Done
-      </button>
+        <h1 className="text-3xl font-bold text-slate-900 text-center mb-3">{params?.title || 'Success!'}</h1>
+        <p className="text-slate-500 text-center leading-relaxed mb-12 max-w-xs">{params?.message || 'Your request has been received.'}</p>
+      </div>
+
+      <div className={`w-full max-w-xs z-10 transition-all duration-700 delay-500 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <button
+          onClick={() => navigate('home')}
+          className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-slate-200 active:scale-95 transition-transform hover:bg-slate-800"
+        >
+          Done
+        </button>
+      </div>
     </div>
   );
 };

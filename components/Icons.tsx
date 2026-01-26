@@ -26,7 +26,8 @@ import {
     Settings,
     Battery,
     Fuel,
-    MessageCircle
+    MessageCircle,
+    Check
 } from 'lucide-react';
 
 export const Icons = {
@@ -57,5 +58,6 @@ export const Icons = {
     Settings: Settings,
     Battery: Battery,
     Fuel: Fuel,
-    MessageCircle: MessageCircle
+    MessageCircle: MessageCircle,
+    Check: Check
 };
