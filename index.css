@@ -84,7 +84,7 @@ body {
   position: relative;
   background-color: #f8fafc;
   /* padding-top: 55px;  <-- REMOVED to allow headers to go behind notch */
-  padding-bottom: 90px;
+  /* padding-bottom: 90px; Removed global padding, applied conditionally in App.tsx */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }

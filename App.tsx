@@ -153,7 +153,7 @@ const HomeScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any)
   };
 
   return (
-    <div className="pb-24 min-h-screen bg-slate-50">
+    <div className="pb-24 min-h-full bg-slate-50">
       {/* Header Area */}
       <div className="px-5 pb-5 pt-14 flex justify-between items-center bg-white sticky top-0 z-20 shadow-sm">
         <div className="flex items-center gap-3">
@@ -337,7 +337,7 @@ const HomeScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any)
 // 2. City Screen
 const CityScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="pb-24 min-h-screen bg-white">
+    <div className="pb-24 min-h-full bg-white">
       <div className="px-5 pb-5 pt-14">
         <h1 className="text-3xl font-bold text-slate-900 mb-6">City</h1>
 
@@ -407,7 +407,7 @@ const InsuranceScreen = ({ navigate }: { navigate: (screen: ScreenName, params?:
   ];
 
   return (
-    <div className="pb-24 min-h-screen bg-slate-50">
+    <div className="pb-24 min-h-full bg-slate-50">
       <div className="bg-white px-4 pb-4 pt-14 flex justify-between items-end border-b border-slate-100 sticky top-0 z-10">
         <h1 className="text-xl font-bold text-slate-900">Insurance 360</h1>
         <div className="flex items-center gap-1 text-brand-600 font-medium">
@@ -437,7 +437,7 @@ const InsuranceScreen = ({ navigate }: { navigate: (screen: ScreenName, params?:
 // 4. Insurance Detail (Policy)
 const PolicyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="pb-24 min-h-screen bg-slate-50">
+    <div className="pb-24 min-h-full bg-slate-50">
       <div className="bg-gradient-to-b from-brand-400 to-brand-500 text-white pb-8 rounded-b-[40px] shadow-lg">
         <div className="px-4 pb-4 pt-14 flex items-center justify-between">
           <h1 className="text-xl font-bold">Insurance 360</h1>
@@ -510,7 +510,7 @@ const PolicyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: an
 // 5. Emergency Hub (SOS Screen)
 const EmergencyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-slate-50 min-h-screen pb-24 flex flex-col">
+    <div className="bg-slate-50 min-h-full pb-24 flex flex-col">
       {/* Red Alert Header */}
       <div className="bg-red-600 px-6 pt-14 pb-12 rounded-b-[40px] shadow-lg relative z-10 text-white">
         <h1 className="text-3xl font-bold mb-2">Emergency</h1>
@@ -603,7 +603,7 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
   const filtered = filter === 'All' ? chargers : chargers.filter(c => c.speed === filter);
 
   return (
-    <div className="bg-white h-screen flex flex-col relative overflow-hidden">
+    <div className="bg-white h-full flex flex-col relative overflow-hidden">
       {/* Map Area - Fixed Height or Flex Grow */}
       <div className="absolute inset-0 z-0 h-[60%]">
         <MapContainer className="h-full w-full" zoom={1.2}>
@@ -669,7 +669,7 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
 // 7. EV Assistance
 const EVAssistanceScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-full">
       <Header
         subtitle="QIC ROADSIDE PLUS"
         title="EV Assistance"
@@ -758,7 +758,7 @@ const MobileChargingScreen = ({ navigate }: { navigate: (screen: ScreenName, par
   const [range, setRange] = useState(50);
 
   return (
-    <div className="bg-white min-h-screen pb-6 flex flex-col">
+    <div className="bg-white min-h-full pb-6 flex flex-col">
       <Header
         title="Mobile Charging"
         onBack={() => navigate('ev_assistance')}
@@ -837,7 +837,7 @@ const MobileChargingScreen = ({ navigate }: { navigate: (screen: ScreenName, par
 // 8b. EV Towing (New Screen)
 const EVTowingScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-white min-h-screen pb-6 flex flex-col">
+    <div className="bg-white min-h-full pb-6 flex flex-col">
       <Header title="EV Towing" onBack={() => navigate('ev_assistance')} />
 
       <div className="flex-1 px-6 pt-4">
@@ -894,7 +894,7 @@ const EVTowingScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: 
 // 6. Roadside Standard
 const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-full">
       <Header title="Roadside Assistance" onBack={() => navigate('emergency_hub')} rightElement={<Icons.Help className="w-6 h-6 text-brand-600 bg-brand-100 rounded-full p-1" />} />
       <div className="p-6">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Standard Services</h1>
@@ -983,7 +983,7 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
   };
 
   return (
-    <div className="bg-white min-h-screen flex flex-col relative overflow-hidden">
+    <div className="bg-white min-h-full flex flex-col relative overflow-hidden">
       {/* Top Map Section (40%) */}
       <div className="absolute top-0 left-0 right-0 h-[45%] z-0">
         <MapContainer className="h-full w-full" zoom={1.2}>
@@ -1274,7 +1274,7 @@ const PlaceholderScreen = ({ navigate, params }: { navigate: (screen: ScreenName
   const Icon = params?.icon && Icons[params.icon as keyof typeof Icons] ? Icons[params.icon as keyof typeof Icons] : Icons.Help;
 
   return (
-    <div className="bg-slate-50 min-h-screen flex flex-col">
+    <div className="bg-slate-50 min-h-full flex flex-col">
       <div className="flex justify-between items-center p-4">
         <button onClick={() => navigate('home')} className="p-2 bg-white rounded-full"><Icons.Close className="w-6 h-6" /></button>
       </div>
@@ -1292,7 +1292,7 @@ const PlaceholderScreen = ({ navigate, params }: { navigate: (screen: ScreenName
 // 11. Market Screen
 const MarketScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-slate-50 min-h-screen pb-10">
+    <div className="bg-slate-50 min-h-full pb-10">
       <Header title="QIC Market" onBack={() => navigate('city')} rightElement={<Icons.Search className="w-6 h-6 text-slate-500" />} />
       <div className="p-4 grid grid-cols-2 gap-4">
         {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -1405,7 +1405,11 @@ export default function App() {
   return (
     <div style={{ transform: `scale(${scale})`, transformOrigin: 'center center', transition: 'transform 0.1s ease-out' }}>
       <div className="iphone-emulator">
-        <div className="iphone-notch"></div><div className="iphone-screen">{renderScreen()}</div><div className="home-indicator"></div>
+        <div className="iphone-notch"></div>
+        <div className={`iphone-screen ${showBottomNav ? 'pb-[90px]' : ''}`}>
+          {renderScreen()}
+        </div>
+        <div className="home-indicator"></div>
 
         {showBottomNav && (
           <div className="absolute bottom-0 left-0 right-0 bg-white z-40 pb-5">
