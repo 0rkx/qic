@@ -520,7 +520,7 @@ const EmergencyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?:
           <button onClick={() => window.location.href = 'tel:999'} className="flex-1 bg-white text-red-600 py-6 rounded-3xl font-bold text-xl shadow-md flex items-center justify-center gap-3 active:scale-95 transition-transform">
             <Icons.Phone className="w-8 h-8 fill-red-600" /> Call 999
           </button>
-          <button onClick={() => navigate('success_confirmation', { title: 'Accident Reported', message: 'Team dispatched. Stay safe.' })} className="flex-1 bg-red-700 text-white border border-red-500 py-6 rounded-3xl font-bold text-xl shadow-md flex items-center justify-center gap-3 active:scale-95 transition-transform">
+          <button onClick={() => navigate('success_confirmation', { type: 'simple', title: 'Accident Reported', message: 'Team dispatched. Stay safe.' })} className="flex-1 bg-red-700 text-white border border-red-500 py-6 rounded-3xl font-bold text-xl shadow-md flex items-center justify-center gap-3 active:scale-95 transition-transform">
             <Icons.Alert className="w-8 h-8" /> Report
           </button>
         </div>
@@ -540,7 +540,7 @@ const EmergencyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?:
                 <p className="font-bold text-slate-900 leading-tight">Doha Expressway</p>
               </div>
             </div>
-            <button onClick={() => navigate('success_confirmation', { title: 'Location Shared', message: 'Your coordinates have been sent to emergency contacts.' })} className="p-4 bg-white rounded-full text-slate-400 hover:text-blue-600 shadow-sm active:scale-95 transition-transform">
+            <button onClick={() => navigate('success_confirmation', { type: 'simple', title: 'Location Shared', message: 'Your coordinates have been sent to emergency contacts.' })} className="p-4 bg-white rounded-full text-slate-400 hover:text-blue-600 shadow-sm active:scale-95 transition-transform">
               <Icons.Share className="w-8 h-8" />
             </button>
           </div>
@@ -655,7 +655,7 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
                   <p className="text-xs text-slate-500">{c.distance} • {c.kw}kW • {c.status}</p>
                 </div>
               </div>
-              <button onClick={() => navigate('success_confirmation', { title: 'Navigation Started', message: `Navigating to ${c.name}` })} className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-blue-600 hover:bg-blue-50">
+              <button onClick={() => navigate('success_confirmation', { type: 'navigation', title: 'Navigation Started', message: `Navigating to ${c.name}`, destination: c.name })} className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-blue-600 hover:bg-blue-50">
                 <Icons.Navigation className="w-5 h-5" />
               </button>
             </div>
@@ -824,7 +824,7 @@ const MobileChargingScreen = ({ navigate }: { navigate: (screen: ScreenName, par
 
       <div className="px-6 border-t border-slate-100 pt-4">
         <button
-          onClick={() => navigate('success_confirmation', { title: 'Power Van Requested', message: `Requested +${range}km range. ETA 15 mins.` })}
+          onClick={() => navigate('success_confirmation', { type: 'charging', title: 'Power Van Requested', message: `Requested +${range}km range. ETA 15 mins.` })}
           className="w-full bg-brand-600 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-500/30 flex items-center justify-center gap-2 active:scale-98 transition-transform"
         >
           Request Power Van <Icons.ArrowRight className="w-5 h-5" />
@@ -845,7 +845,7 @@ const EVTowingScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: 
         <p className="text-slate-500 text-sm mb-6">Where should we take your vehicle?</p>
 
         <div className="space-y-3">
-          <div onClick={() => navigate('success_confirmation', { title: 'Towing Requested', message: 'Towing to nearest charger.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
+          <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to nearest Supercharger.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
               <Icons.Zap className="w-6 h-6 fill-current" />
             </div>
@@ -856,7 +856,7 @@ const EVTowingScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: 
             <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
           </div>
 
-          <div onClick={() => navigate('success_confirmation', { title: 'Towing Requested', message: 'Towing to Service Center.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
+          <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to Tesla Service Center.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
               <Icons.Wrench className="w-6 h-6" />
             </div>
@@ -867,7 +867,7 @@ const EVTowingScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: 
             <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
           </div>
 
-          <div onClick={() => navigate('success_confirmation', { title: 'Towing Requested', message: 'Towing to Home.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
+          <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to your Home address.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
             <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-600">
               <Icons.Home className="w-6 h-6" />
             </div>
@@ -919,7 +919,7 @@ const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, p
           ].map((s, i) => (
             <div
               key={i}
-              onClick={() => navigate('success_confirmation', { title: `${s.name} Requested`, message: 'A specialist is on their way to your location.' })}
+              onClick={() => navigate('success_confirmation', { type: 'roadside', title: `${s.name} Requested`, message: 'A specialist is on their way to your location.' })}
               className="bg-white rounded-3xl p-6 flex items-center justify-between shadow-sm active:scale-[0.98] transition-transform cursor-pointer"
             >
               <div>
@@ -937,13 +937,50 @@ const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, p
   );
 };
 
-// 9. Success Confirmation Screen
+// 9. Success Confirmation Screen - Context Aware
 const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) => void, params?: any }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setShow(true), 100);
   }, []);
+
+  // Determine the type of success screen
+  const screenType = params?.type || 'simple'; // 'navigation', 'roadside', 'charging', 'simple'
+
+  // Get the appropriate pin icon based on type
+  const getPinIcon = () => {
+    switch (screenType) {
+      case 'navigation':
+        return <Icons.Zap className="w-6 h-6 text-white fill-current" />;
+      case 'charging':
+        return <Icons.Zap className="w-6 h-6 text-yellow-400 fill-current" />;
+      case 'roadside':
+        return <Icons.Car className="w-6 h-6 text-white" />;
+      default:
+        return <Icons.Check className="w-6 h-6 text-white" />;
+    }
+  };
+
+  const getPinColor = () => {
+    switch (screenType) {
+      case 'navigation':
+        return 'bg-green-500';
+      case 'charging':
+        return 'bg-yellow-500';
+      case 'roadside':
+        return 'bg-slate-900';
+      default:
+        return 'bg-brand-600';
+    }
+  };
+
+  const getEtaLabel = () => {
+    if (screenType === 'navigation') return 'Estimated Arrival';
+    if (screenType === 'charging') return 'Van Arrival';
+    if (screenType === 'roadside') return 'Estimated Arrival';
+    return 'Status Update';
+  };
 
   return (
     <div className="bg-white min-h-screen flex flex-col relative overflow-hidden">
@@ -958,15 +995,15 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
             <Icons.ArrowLeft className="w-6 h-6" />
           </button>
 
-          {/* Driver Pin */}
+          {/* Dynamic Pin based on type */}
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ${show ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
             <div className="relative">
-              <div className="w-12 h-12 bg-slate-900 rounded-full border-4 border-white shadow-xl flex items-center justify-center z-20 relative">
-                <Icons.Car className="w-6 h-6 text-white" />
+              <div className={`w-12 h-12 ${getPinColor()} rounded-full border-4 border-white shadow-xl flex items-center justify-center z-20 relative`}>
+                {getPinIcon()}
               </div>
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 rotate-45 z-10"></div>
+              <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 ${getPinColor()} rotate-45 z-10`}></div>
               <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md text-[10px] font-bold mt-2 whitespace-nowrap">
-                3 min away
+                {screenType === 'navigation' ? 'Destination' : screenType === 'roadside' ? '3 min away' : 'Active'}
               </div>
             </div>
           </div>
@@ -983,8 +1020,10 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
           {/* Header */}
           <div className="flex justify-between items-start mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">{params?.title || 'Service Requested'}</h2>
-              <p className="text-slate-500 text-sm mt-1">Request ID: #QIC-{Math.floor(Math.random() * 10000)}</p>
+              <h2 className="text-2xl font-bold text-slate-900">{params?.title || 'Confirmed'}</h2>
+              {params?.message && (
+                <p className="text-slate-500 text-sm mt-1">{params.message}</p>
+              )}
             </div>
             <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -992,169 +1031,238 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
             </div>
           </div>
 
-          {/* ETA Card */}
+          {/* ETA Card - Always shown */}
           <div className="bg-slate-50 rounded-2xl p-4 flex items-center justify-between mb-6 border border-slate-100">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-900">
                 <Icons.Clock className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-bold uppercase">Estimated Arrival</p>
-                <p className="text-lg font-bold text-slate-900">10:42 AM <span className="text-slate-400 font-normal text-sm">(12 min)</span></p>
+                <p className="text-xs text-slate-500 font-bold uppercase">{getEtaLabel()}</p>
+                <p className="text-lg font-bold text-slate-900">
+                  {screenType === 'navigation' ? '12 min drive' : '10:42 AM'} <span className="text-slate-400 font-normal text-sm">{screenType !== 'navigation' && '(12 min)'}</span>
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Driver/Provider Info */}
-          <div className="mb-8">
-            <h3 className="font-bold text-slate-900 mb-3">Service Provider</h3>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 bg-slate-200 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                  <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100" alt="Driver" className="w-full h-full object-cover" />
+          {/* NAVIGATION TYPE - Show destination details, NO service provider */}
+          {screenType === 'navigation' && (
+            <>
+              {/* Destination Info */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">Destination</h3>
+                <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600">
+                    <Icons.Zap className="w-6 h-6 fill-current" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-slate-900">{params?.destination || 'Charging Station'}</p>
+                    <p className="text-xs text-slate-500">2.5 km away • Available</p>
+                  </div>
+                  <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30 active:scale-95 transition-transform">
+                    <Icons.Navigation className="w-5 h-5" />
+                  </button>
                 </div>
-                <div>
-                  <h4 className="font-bold text-slate-900">Ahmed Al-Sayed</h4>
-                  <div className="flex items-center gap-1 text-xs text-slate-500">
-                    <Icons.Star className="w-3 h-3 text-yellow-400 fill-current" />
-                    <span className="font-bold text-slate-700">4.9</span>
-                    <span>•</span>
-                    <span>Recovery Specialist</span>
+              </div>
+
+              {/* Directions */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">Route Overview</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-bold">1</div>
+                    <p className="text-sm text-slate-700">Head north on current road</p>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-bold">2</div>
+                    <p className="text-sm text-slate-700">Turn right at the next intersection</p>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm font-bold">
+                      <Icons.Check className="w-4 h-4" />
+                    </div>
+                    <p className="text-sm text-slate-700">Arrive at destination on your right</p>
                   </div>
                 </div>
               </div>
-              <button className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/30 active:scale-95 transition-transform">
-                <Icons.Phone className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
 
-          {/* Vehicle Details */}
-          <div className="mb-8">
-            <h3 className="font-bold text-slate-900 mb-3">Vehicle Details</h3>
-            <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
-              <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400">
-                <Icons.Car className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-slate-900">Recovery Truck</p>
-                <p className="text-xs text-slate-500">White • Plate: 123456</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Payment Info */}
-          <div className="mb-8">
-            <h3 className="font-bold text-slate-900 mb-3">Payment</h3>
-            <div className="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-600">
-                  <Icons.CreditCard className="w-5 h-5" />
-                </div>
+              {/* Charger Info */}
+              <div className="mb-6 bg-green-50 p-4 rounded-2xl flex gap-3 items-start">
+                <Icons.Zap className="w-5 h-5 text-green-600 shrink-0 mt-0.5 fill-current" />
                 <div>
-                  <p className="text-xs text-slate-500">Estimated Cost</p>
-                  <p className="font-bold text-slate-900">QAR 150.00</p>
+                  <h4 className="font-bold text-sm text-green-900">Fast Charger Available</h4>
+                  <p className="text-xs text-green-700 mt-1 leading-relaxed">150kW DC fast charging • Approximately 30 minutes to full charge.</p>
                 </div>
               </div>
-              <span className="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded-md">Apple Pay</span>
-            </div>
-          </div>
+            </>
+          )}
 
-          {/* Safety Note */}
-          <div className="mb-8 bg-blue-50 p-4 rounded-2xl flex gap-3 items-start">
-            <Icons.Shield className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-bold text-sm text-blue-900">Safety First</h4>
-              <p className="text-xs text-blue-700 mt-1 leading-relaxed">Please stay in a safe location away from traffic while waiting for assistance. Keep your hazard lights on.</p>
-            </div>
-          </div>
+          {/* ROADSIDE TYPE - Show service provider */}
+          {screenType === 'roadside' && (
+            <>
+              {/* Driver/Provider Info */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">Service Provider</h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 bg-slate-200 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                      <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100" alt="Driver" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900">Ahmed Al-Sayed</h4>
+                      <div className="flex items-center gap-1 text-xs text-slate-500">
+                        <Icons.Star className="w-3 h-3 text-yellow-400 fill-current" />
+                        <span className="font-bold text-slate-700">4.9</span>
+                        <span>•</span>
+                        <span>Recovery Specialist</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/30 active:scale-95 transition-transform">
+                    <Icons.Phone className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
 
-          {/* What Happens Next */}
-          <div className="mb-8">
-            <h3 className="font-bold text-slate-900 mb-3">What Happens Next?</h3>
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">1</div>
-                <p className="text-sm text-slate-600">Driver arrives at your location</p>
+              {/* Vehicle Details */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">Vehicle Details</h3>
+                <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
+                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400">
+                    <Icons.Car className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">Recovery Truck</p>
+                    <p className="text-xs text-slate-500">White • Plate: 123456</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">2</div>
-                <p className="text-sm text-slate-600">Quick vehicle inspection</p>
-              </div>
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">3</div>
-                <p className="text-sm text-slate-600">Service performance & completion</p>
-              </div>
-            </div>
-          </div>
 
-          {/* Order Summary */}
-          <div className="mb-8">
-            <h3 className="font-bold text-slate-900 mb-3">Order Summary</h3>
-            <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-slate-500">Base Fee</span>
-                <span className="font-medium text-slate-900">QAR 100.00</span>
+              {/* What Happens Next */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">What Happens Next?</h3>
+                <div className="space-y-4">
+                  <div className="flex gap-3">
+                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">1</div>
+                    <p className="text-sm text-slate-600">Driver arrives at your location</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">2</div>
+                    <p className="text-sm text-slate-600">Quick vehicle inspection</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">3</div>
+                    <p className="text-sm text-slate-600">Service performance & completion</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-slate-500">Service Fee</span>
-                <span className="font-medium text-slate-900">QAR 50.00</span>
-              </div>
-              <div className="border-t border-slate-200 my-2 pt-2 flex justify-between font-bold">
-                <span className="text-slate-900">Total</span>
-                <span className="text-slate-900">QAR 150.00</span>
-              </div>
-            </div>
-          </div>
 
-          {/* Need Help */}
-          <div className="mb-8 text-center">
-            <p className="text-sm text-slate-500 mb-2">Need help with this request?</p>
-            <button className="text-brand-600 font-bold text-sm">Contact Support</button>
-          </div>
-
-          {/* Timeline */}
-          <div className="relative pl-4 space-y-6 mb-8">
-            <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-100" />
-
-            <div className="relative flex items-center gap-4">
-              <div className="w-4 h-4 rounded-full bg-green-500 border-4 border-white shadow-sm z-10" />
-              <div>
-                <p className="font-bold text-slate-900 text-sm">Request Confirmed</p>
-                <p className="text-xs text-slate-400">10:30 AM</p>
+              {/* Safety Note */}
+              <div className="mb-6 bg-blue-50 p-4 rounded-2xl flex gap-3 items-start">
+                <Icons.Shield className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-sm text-blue-900">Safety First</h4>
+                  <p className="text-xs text-blue-700 mt-1 leading-relaxed">Please stay in a safe location away from traffic while waiting for assistance. Keep your hazard lights on.</p>
+                </div>
               </div>
-            </div>
-            <div className="relative flex items-center gap-4">
-              <div className="w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm z-10 ring-4 ring-blue-100" />
-              <div>
-                <p className="font-bold text-slate-900 text-sm">En Route</p>
-                <p className="text-xs text-slate-400">Driver is on the way</p>
-              </div>
-            </div>
-            <div className="relative flex items-center gap-4 opacity-50">
-              <div className="w-4 h-4 rounded-full bg-slate-200 border-4 border-white z-10" />
-              <div>
-                <p className="font-bold text-slate-900 text-sm">Arrived</p>
-                <p className="text-xs text-slate-400">Estimated 10:42 AM</p>
-              </div>
-            </div>
-          </div>
+            </>
+          )}
 
-          {/* Actions */}
-          <div className="flex gap-3 mt-auto">
-            <button
-              onClick={() => navigate('home')}
-              className="flex-1 py-4 rounded-2xl font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => navigate('home')}
-              className="flex-[2] py-4 rounded-2xl font-bold text-white bg-slate-900 shadow-xl shadow-slate-200 active:scale-95 transition-transform"
-            >
-              Done
-            </button>
-          </div>
+          {/* CHARGING TYPE - Show power van details */}
+          {screenType === 'charging' && (
+            <>
+              {/* Power Van Info */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">Power Van</h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center">
+                      <Icons.Zap className="w-7 h-7 text-yellow-600 fill-current" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900">Mobile Charger #24</h4>
+                      <div className="flex items-center gap-1 text-xs text-slate-500">
+                        <span className="font-bold text-green-600">Available</span>
+                        <span>•</span>
+                        <span>150kW Capacity</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/30 active:scale-95 transition-transform">
+                    <Icons.Phone className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Charging Details */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">Charging Request</h3>
+                <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Requested Range</span>
+                    <span className="font-medium text-slate-900">+50 km</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Charging Time</span>
+                    <span className="font-medium text-slate-900">~20 min</span>
+                  </div>
+                  <div className="border-t border-slate-200 my-2 pt-2 flex justify-between font-bold">
+                    <span className="text-slate-900">Estimated Cost</span>
+                    <span className="text-brand-600">QAR 165.00</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* EV Safety Note */}
+              <div className="mb-6 bg-yellow-50 p-4 rounded-2xl flex gap-3 items-start">
+                <Icons.Zap className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5 fill-current" />
+                <div>
+                  <h4 className="font-bold text-sm text-yellow-900">EV Certified</h4>
+                  <p className="text-xs text-yellow-700 mt-1 leading-relaxed">Our mobile charging units are certified for all EV models and use standard CCS connectors.</p>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* SIMPLE TYPE - Just a confirmation message */}
+          {screenType === 'simple' && (
+            <>
+              {/* Simple confirmation */}
+              <div className="mb-6 bg-green-50 p-6 rounded-2xl text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icons.Check className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="font-bold text-lg text-green-900 mb-2">All Set!</h3>
+                <p className="text-sm text-green-700">{params?.message || 'Your request has been processed successfully.'}</p>
+              </div>
+
+              {/* What's Next */}
+              <div className="mb-6">
+                <h3 className="font-bold text-slate-900 mb-3">What's Next?</h3>
+                <p className="text-sm text-slate-600 mb-4">You'll receive updates on your request via notifications. Check back anytime for status.</p>
+              </div>
+            </>
+          )}
+
+        </div>
+      </div>
+
+      {/* Actions - Sticky Footer */}
+      <div className="p-6 pt-2 bg-white border-t border-slate-50">
+        <div className="flex gap-3">
+          <button
+            onClick={() => navigate('home')}
+            className="flex-1 py-4 rounded-2xl font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 transition-colors"
+          >
+            {screenType === 'navigation' ? 'Cancel' : 'Back'}
+          </button>
+          <button
+            onClick={() => navigate('home')}
+            className="flex-[2] py-4 rounded-2xl font-bold text-white bg-slate-900 shadow-xl shadow-slate-200 active:scale-95 transition-transform"
+          >
+            {screenType === 'navigation' ? 'Open Maps' : 'Done'}
+          </button>
         </div>
       </div>
     </div>
@@ -1292,7 +1400,7 @@ export default function App() {
   // We show it on main Hubs. Sub-workflows usually hide it to provide more screen space,
   // BUT the user requested better navigation persistence.
   // Let's keep it on main hubs and 'City' sub-pages if possible, but definitely hide on heavy interaction pages like map navigators.
-  const showBottomNav = ['home', 'city', 'insurance_hub', 'emergency_hub', 'market', 'ev_assistance'].includes(currentScreen);
+  const showBottomNav = ['home', 'city', 'insurance_hub', 'emergency_hub', 'market'].includes(currentScreen);
 
   return (
     <div style={{ transform: `scale(${scale})`, transformOrigin: 'center center', transition: 'transform 0.1s ease-out' }}>
