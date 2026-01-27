@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Icons } from './components/Icons';
+import { AnimatePresence } from 'framer-motion';
+import { PageTransition } from './components/PageTransition';
+import { StaggerContainer, FadeInItem, ScaleInItem } from './components/MotionHelpers';
 import { ScreenName, TabName, ChatMessage, NavigationState, Charger } from './types';
 import { askGemini } from './services/gemini';
 import dohaMap from './assets/doha_map.png';
+import teslaModel3 from './assets/tesla_model3.png';
 
 // --- Components ---
 
@@ -225,7 +229,7 @@ const HomeScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any)
         <div className="bg-indigo-50 rounded-[32px] p-6 relative overflow-hidden">
           <div className="flex justify-between items-start z-10 relative">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900">JETOUR T2</h2>
+              <h2 className="text-3xl font-bold text-slate-900">Tesla Model 3</h2>
               <button
                 onClick={() => navigate('insurance_detail')}
                 className="mt-6 bg-brand-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-brand-500/30 active:scale-95 transition-transform"
@@ -235,9 +239,9 @@ const HomeScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any)
             </div>
           </div>
           <img
-            src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=300"
-            alt="Car"
-            className="absolute right-[-40px] top-[20px] w-[260px] object-contain drop-shadow-2xl rotate-1"
+            src={teslaModel3}
+            alt="Tesla Model 3"
+            className="absolute right-[-30px] top-[10px] w-[280px] object-contain drop-shadow-2xl"
           />
 
           <div className="grid grid-cols-2 gap-4 mt-10 z-10 relative">
@@ -510,9 +514,9 @@ const PolicyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: an
 // 5. Emergency Hub (SOS Screen)
 const EmergencyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-slate-50 min-h-full pb-24 flex flex-col">
+    <StaggerContainer className="bg-slate-50 min-h-full pb-24 flex flex-col">
       {/* Red Alert Header */}
-      <div className="bg-red-600 px-6 pt-14 pb-12 rounded-b-[40px] shadow-lg relative z-10 text-white">
+      <FadeInItem className="bg-red-600 px-6 pt-14 pb-12 rounded-b-[40px] shadow-lg relative z-10 text-white">
         <h1 className="text-3xl font-bold mb-2">Emergency</h1>
         <p className="opacity-90 mb-6 text-red-100">Immediate assistance for you and your vehicle.</p>
 
@@ -524,10 +528,10 @@ const EmergencyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?:
             <Icons.Alert className="w-8 h-8" /> Report
           </button>
         </div>
-      </div>
+      </FadeInItem>
 
       {/* Map Integration for Location */}
-      <div className="mx-6 -mt-8 relative z-20 h-[100px] rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+      <ScaleInItem className="mx-6 -mt-8 relative z-20 h-[100px] rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
         <MapContainer className="h-full" zoom={1.2}>
           <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px]" />
           <div className="absolute inset-0 flex items-center justify-between px-4">
@@ -545,48 +549,54 @@ const EmergencyScreen = ({ navigate }: { navigate: (screen: ScreenName, params?:
             </button>
           </div>
         </MapContainer>
-      </div>
+      </ScaleInItem>
 
       {/* Roadside Options */}
       <div className="px-6 mt-8 flex-1">
-        <h2 className="font-bold text-xl text-slate-900 mb-4">Roadside Assistance</h2>
+        <FadeInItem>
+          <h2 className="font-bold text-xl text-slate-900 mb-4">Roadside Assistance</h2>
+        </FadeInItem>
 
         {/* Tabs/Cards for Vehicle Type */}
         <div className="grid grid-cols-1 gap-4">
           {/* Standard */}
-          <div onClick={() => navigate('roadside_standard')} className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center active:scale-[0.98] transition-transform cursor-pointer">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600">
-                <Icons.Car className="w-7 h-7" />
+          <FadeInItem>
+            <div onClick={() => navigate('roadside_standard')} className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center active:scale-[0.98] transition-transform cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600">
+                  <Icons.Car className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-slate-900">Standard Car</h3>
+                  <p className="text-slate-500 text-sm">Gasoline / Diesel</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-lg text-slate-900">Standard Car</h3>
-                <p className="text-slate-500 text-sm">Gasoline / Diesel</p>
+              <div className="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center">
+                <Icons.ArrowRight className="w-8 h-8 text-slate-400" />
               </div>
             </div>
-            <div className="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center">
-              <Icons.ArrowRight className="w-8 h-8 text-slate-400" />
-            </div>
-          </div>
+          </FadeInItem>
 
           {/* EV */}
-          <div onClick={() => navigate('ev_assistance')} className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center active:scale-[0.98] transition-transform cursor-pointer">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center text-green-600">
-                <Icons.Zap className="w-7 h-7 fill-current" />
+          <FadeInItem>
+            <div onClick={() => navigate('ev_assistance')} className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center active:scale-[0.98] transition-transform cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center text-green-600">
+                  <Icons.Zap className="w-7 h-7 fill-current" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-slate-900">Electric Vehicle</h3>
+                  <p className="text-slate-500 text-sm">Charging & Towing</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-lg text-slate-900">Electric Vehicle</h3>
-                <p className="text-slate-500 text-sm">Charging & Towing</p>
+              <div className="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center">
+                <Icons.ArrowRight className="w-8 h-8 text-slate-400" />
               </div>
             </div>
-            <div className="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center">
-              <Icons.ArrowRight className="w-8 h-8 text-slate-400" />
-            </div>
-          </div>
+          </FadeInItem>
         </div>
       </div>
-    </div>
+    </StaggerContainer>
   );
 };
 
@@ -603,9 +613,9 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
   const filtered = filter === 'All' ? chargers : chargers.filter(c => c.speed === filter);
 
   return (
-    <div className="bg-white h-full flex flex-col relative overflow-hidden">
+    <StaggerContainer className="bg-white h-full flex flex-col relative overflow-hidden">
       {/* Map Area - Fixed Height or Flex Grow */}
-      <div className="absolute inset-0 z-0 h-[60%]">
+      <FadeInItem className="absolute inset-0 z-0 h-[60%]">
         <MapContainer className="h-full w-full" zoom={1.2}>
           {/* Render Generic Pins on Map */}
           {filtered.map((c, i) => (
@@ -619,10 +629,10 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
             </div>
           ))}
         </MapContainer>
-      </div>
+      </FadeInItem>
 
       {/* Floating Header */}
-      <div className="absolute top-14 left-4 right-4 z-20 flex justify-between items-start pointer-events-none">
+      <FadeInItem className="absolute top-14 left-4 right-4 z-20 flex justify-between items-start pointer-events-none">
         <button onClick={() => navigate('ev_assistance')} className="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center pointer-events-auto">
           <Icons.ArrowLeft className="w-5 h-5 text-slate-800" />
         </button>
@@ -637,10 +647,10 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
             </button>
           ))}
         </div>
-      </div>
+      </FadeInItem>
 
       {/* Bottom Sheet - Absolute Positioned */}
-      <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-white rounded-t-[32px] shadow-[0_-5px_20px_rgba(0,0,0,0.1)] p-6 z-10 overflow-y-auto">
+      <FadeInItem className="absolute bottom-0 left-0 right-0 h-[45%] bg-white rounded-t-[32px] shadow-[0_-5px_20px_rgba(0,0,0,0.1)] p-6 z-10 overflow-y-auto">
         <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6 sticky top-0" />
         <h2 className="font-bold text-xl text-slate-900 mb-4">Nearby Stations</h2>
         <div className="space-y-4 pb-4">
@@ -661,28 +671,30 @@ const ChargingNavigatorScreen = ({ navigate }: { navigate: (screen: ScreenName, 
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </FadeInItem>
+    </StaggerContainer>
   );
 };
 
 // 7. EV Assistance
 const EVAssistanceScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-white min-h-full">
-      <Header
-        subtitle="QIC ROADSIDE PLUS"
-        title="EV Assistance"
-        onBack={() => navigate('emergency_hub')}
-        rightElement={
-          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          </div>
-        }
-      />
+    <StaggerContainer className="bg-white min-h-full">
+      <FadeInItem>
+        <Header
+          subtitle="QIC ROADSIDE PLUS"
+          title="EV Assistance"
+          onBack={() => navigate('emergency_hub')}
+          rightElement={
+            <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            </div>
+          }
+        />
+      </FadeInItem>
 
       <div className="p-5">
-        <div className="bg-gradient-to-br from-brand-500 to-brand-600 rounded-[32px] p-6 text-white relative overflow-hidden shadow-xl shadow-brand-500/20">
+        <ScaleInItem className="bg-gradient-to-br from-brand-500 to-brand-600 rounded-[32px] p-6 text-white relative overflow-hidden shadow-xl shadow-brand-500/20">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold mb-4">
             <Icons.Shield className="w-3 h-3" /> EV-Safe Tech Certified
           </div>
@@ -692,64 +704,74 @@ const EVAssistanceScreen = ({ navigate }: { navigate: (screen: ScreenName, param
           <div className="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
             <Icons.Shield className="w-12 h-12 text-white" />
           </div>
-        </div>
+        </ScaleInItem>
 
-        <h3 className="font-bold text-xl text-slate-900 mt-8 mb-4">Services</h3>
+        <FadeInItem>
+          <h3 className="font-bold text-xl text-slate-900 mt-8 mb-4">Services</h3>
+        </FadeInItem>
         <div className="grid grid-cols-2 gap-4">
-          <div
-            onClick={() => navigate('mobile_charging')}
-            className="bg-slate-50 border border-slate-100 rounded-3xl p-4 flex flex-col justify-between h-[180px] active:scale-[0.98] transition-transform cursor-pointer"
-          >
-            <div>
-              <h4 className="font-bold text-slate-900">Mobile Charging</h4>
-              <p className="text-xs text-slate-500 mt-1">Power van comes to you</p>
-            </div>
-            <div className="flex justify-between items-end mt-4">
-              <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600">
-                <Icons.ArrowRight className="w-4 h-4" />
+          <FadeInItem>
+            <div
+              onClick={() => navigate('mobile_charging')}
+              className="bg-slate-50 border border-slate-100 rounded-3xl p-4 flex flex-col justify-between h-[180px] active:scale-[0.98] transition-transform cursor-pointer"
+            >
+              <div>
+                <h4 className="font-bold text-slate-900">Mobile Charging</h4>
+                <p className="text-xs text-slate-500 mt-1">Power van comes to you</p>
               </div>
-              <div className="w-24 h-16 bg-slate-200 rounded-lg relative overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1593941707874-ef25b8b4a914?auto=format&fit=crop&q=80&w=200" className="w-full h-full object-cover opacity-80" alt="Van" />
+              <div className="flex justify-between items-end mt-4">
+                <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600">
+                  <Icons.ArrowRight className="w-4 h-4" />
+                </div>
+                <div className="w-24 h-16 bg-slate-200 rounded-lg relative overflow-hidden">
+                  <div className="w-full h-full bg-brand-100 flex items-center justify-center">
+                    <Icons.Zap className="w-8 h-8 text-brand-600" />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </FadeInItem>
 
-          <div
-            onClick={() => navigate('ev_towing')}
-            className="bg-slate-50 border border-slate-100 rounded-3xl p-4 flex flex-col justify-between h-[180px] active:scale-[0.98] transition-transform cursor-pointer"
-          >
-            <div>
-              <h4 className="font-bold text-slate-900">EV-Safe Towing</h4>
-              <p className="text-xs text-slate-500 mt-1">Flatbed transport</p>
-            </div>
-            <div className="flex justify-between items-end mt-4">
-              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
-                <Icons.ArrowRight className="w-4 h-4" />
+          <FadeInItem>
+            <div
+              onClick={() => navigate('ev_towing')}
+              className="bg-slate-50 border border-slate-100 rounded-3xl p-4 flex flex-col justify-between h-[180px] active:scale-[0.98] transition-transform cursor-pointer"
+            >
+              <div>
+                <h4 className="font-bold text-slate-900">EV-Safe Towing</h4>
+                <p className="text-xs text-slate-500 mt-1">Flatbed transport</p>
               </div>
-              <div className="w-24 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <Icons.Car className="w-8 h-8 text-yellow-600" />
+              <div className="flex justify-between items-end mt-4">
+                <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+                  <Icons.ArrowRight className="w-4 h-4" />
+                </div>
+                <div className="w-24 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
+                  <Icons.Car className="w-8 h-8 text-yellow-600" />
+                </div>
               </div>
             </div>
-          </div>
+          </FadeInItem>
         </div>
 
-        <div
-          onClick={() => navigate('charging_navigator')}
-          className="mt-4 bg-slate-50 border border-slate-100 rounded-3xl p-4 flex items-center justify-between active:scale-[0.98] transition-transform cursor-pointer"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <Icons.MapPin className="w-6 h-6 text-green-600" />
+        <FadeInItem>
+          <div
+            onClick={() => navigate('charging_navigator')}
+            className="mt-4 bg-slate-50 border border-slate-100 rounded-3xl p-4 flex items-center justify-between active:scale-[0.98] transition-transform cursor-pointer"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <Icons.MapPin className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900">Charging Navigator</h4>
+                <p className="text-xs text-slate-500">Find nearest fast chargers</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-bold text-slate-900">Charging Navigator</h4>
-              <p className="text-xs text-slate-500">Find nearest fast chargers</p>
-            </div>
+            <Icons.ArrowRight className="w-5 h-5 text-slate-400" />
           </div>
-          <Icons.ArrowRight className="w-5 h-5 text-slate-400" />
-        </div>
+        </FadeInItem>
       </div>
-    </div>
+    </StaggerContainer>
   );
 };
 
@@ -758,14 +780,16 @@ const MobileChargingScreen = ({ navigate }: { navigate: (screen: ScreenName, par
   const [range, setRange] = useState(50);
 
   return (
-    <div className="bg-white min-h-full pb-6 flex flex-col">
-      <Header
-        title="Mobile Charging"
-        onBack={() => navigate('ev_assistance')}
-        rightElement={<Icons.Help className="w-6 h-6 text-slate-400" />}
-      />
+    <StaggerContainer className="bg-white min-h-full pb-6 flex flex-col">
+      <FadeInItem>
+        <Header
+          title="Mobile Charging"
+          onBack={() => navigate('ev_assistance')}
+          rightElement={<Icons.Help className="w-6 h-6 text-slate-400" />}
+        />
+      </FadeInItem>
 
-      <div className="h-[250px] relative bg-slate-100 mb-6">
+      <ScaleInItem className="h-[250px] relative bg-slate-100 mb-6">
         <MapContainer className="h-full" zoom={1.5}>
           <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-green-500/10 rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse" />
           <div className="absolute top-[40%] left-[60%]">
@@ -779,16 +803,16 @@ const MobileChargingScreen = ({ navigate }: { navigate: (screen: ScreenName, par
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
           <span className="text-xs font-bold text-slate-800">Van is 15 mins away</span>
         </div>
-      </div>
+      </ScaleInItem>
 
       <div className="flex-1 px-6">
-        <div className="flex items-center justify-between mb-2">
+        <FadeInItem className="flex items-center justify-between mb-2">
           <h3 className="font-bold text-xl text-slate-900">Requested Range</h3>
           <span className="text-brand-600 font-bold text-2xl">+{range} km</span>
-        </div>
+        </FadeInItem>
 
         {/* Custom Range Slider */}
-        <div className="py-6">
+        <FadeInItem className="py-6">
           <input
             type="range"
             min="10"
@@ -802,105 +826,121 @@ const MobileChargingScreen = ({ navigate }: { navigate: (screen: ScreenName, par
             <span>+10km</span>
             <span>+100km</span>
           </div>
-        </div>
+        </FadeInItem>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+          <FadeInItem className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
             <div className="flex items-center gap-2 text-slate-500 mb-2">
               <Icons.Home className="w-4 h-4" /> <span className="text-xs font-bold uppercase">Arrival</span>
             </div>
             <p className="text-2xl font-bold text-slate-900">15 min</p>
             <p className="text-green-600 text-xs font-bold mt-1">Fastest route</p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+          </FadeInItem>
+          <FadeInItem className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
             <div className="flex items-center gap-2 text-slate-500 mb-2">
               <Icons.Grid className="w-4 h-4" /> <span className="text-xs font-bold uppercase">Est. Cost</span>
             </div>
             <p className="text-2xl font-bold text-slate-900">QAR {(115 + range).toFixed(2)}</p>
             <p className="text-slate-400 text-xs mt-1">Incl. taxes</p>
-          </div>
+          </FadeInItem>
         </div>
       </div>
 
-      <div className="px-6 border-t border-slate-100 pt-4">
+      <FadeInItem className="px-6 border-t border-slate-100 pt-4">
         <button
           onClick={() => navigate('success_confirmation', { type: 'charging', title: 'Power Van Requested', message: `Requested +${range}km range. ETA 15 mins.` })}
           className="w-full bg-brand-600 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-500/30 flex items-center justify-center gap-2 active:scale-98 transition-transform"
         >
           Request Power Van <Icons.ArrowRight className="w-5 h-5" />
         </button>
-      </div>
-    </div>
+      </FadeInItem>
+    </StaggerContainer>
   );
 };
 
 // 8b. EV Towing (New Screen)
 const EVTowingScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-white min-h-full pb-6 flex flex-col">
-      <Header title="EV Towing" onBack={() => navigate('ev_assistance')} />
+    <StaggerContainer className="bg-white min-h-full pb-6 flex flex-col">
+      <FadeInItem>
+        <Header title="EV Towing" onBack={() => navigate('ev_assistance')} />
+      </FadeInItem>
 
       <div className="flex-1 px-6 pt-4">
-        <h2 className="font-bold text-xl text-slate-900 mb-2">Select Destination</h2>
-        <p className="text-slate-500 text-sm mb-6">Where should we take your vehicle?</p>
+        <FadeInItem>
+          <h2 className="font-bold text-xl text-slate-900 mb-2">Select Destination</h2>
+          <p className="text-slate-500 text-sm mb-6">Where should we take your vehicle?</p>
+        </FadeInItem>
 
         <div className="space-y-3">
-          <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to nearest Supercharger.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-              <Icons.Zap className="w-6 h-6 fill-current" />
+          <FadeInItem>
+            <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to nearest Supercharger.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                <Icons.Zap className="w-6 h-6 fill-current" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-slate-900">Nearest Supercharger</h3>
+                <p className="text-xs text-slate-500">2.5km away • Doha Festival City</p>
+              </div>
+              <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
             </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-slate-900">Nearest Supercharger</h3>
-              <p className="text-xs text-slate-500">2.5km away • Doha Festival City</p>
-            </div>
-            <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
-          </div>
+          </FadeInItem>
 
-          <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to Tesla Service Center.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
-              <Icons.Wrench className="w-6 h-6" />
+          <FadeInItem>
+            <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to Tesla Service Center.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                <Icons.Wrench className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-slate-900">Tesla Service Center</h3>
+                <p className="text-xs text-slate-500">15km away • Industrial Area</p>
+              </div>
+              <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
             </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-slate-900">Tesla Service Center</h3>
-              <p className="text-xs text-slate-500">15km away • Industrial Area</p>
-            </div>
-            <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
-          </div>
+          </FadeInItem>
 
-          <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to your Home address.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
-            <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-600">
-              <Icons.Home className="w-6 h-6" />
+          <FadeInItem>
+            <div onClick={() => navigate('success_confirmation', { type: 'roadside', title: 'Towing Requested', message: 'Towing to your Home address.' })} className="p-4 border border-slate-200 rounded-2xl flex items-center gap-4 hover:bg-slate-50 cursor-pointer">
+              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-600">
+                <Icons.Home className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-slate-900">Home</h3>
+                <p className="text-xs text-slate-500">The Pearl, Tower 12</p>
+              </div>
+              <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
             </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-slate-900">Home</h3>
-              <p className="text-xs text-slate-500">The Pearl, Tower 12</p>
-            </div>
-            <Icons.ArrowRight className="w-5 h-5 text-slate-300" />
-          </div>
+          </FadeInItem>
         </div>
 
-        <div className="mt-8 bg-brand-50 rounded-2xl p-4 flex gap-4 items-start">
-          <Icons.Shield className="w-6 h-6 text-brand-600 shrink-0" />
-          <div>
-            <h4 className="font-bold text-sm text-brand-900">EV Flatbed Guarantee</h4>
-            <p className="text-xs text-brand-700 mt-1">We only use certified flatbeds to prevent motor damage from regenerative braking systems.</p>
+        <FadeInItem>
+          <div className="mt-8 bg-brand-50 rounded-2xl p-4 flex gap-4 items-start">
+            <Icons.Shield className="w-6 h-6 text-brand-600 shrink-0" />
+            <div>
+              <h4 className="font-bold text-sm text-brand-900">EV Flatbed Guarantee</h4>
+              <p className="text-xs text-brand-700 mt-1">We only use certified flatbeds to prevent motor damage from regenerative braking systems.</p>
+            </div>
           </div>
-        </div>
+        </FadeInItem>
       </div>
-    </div>
+    </StaggerContainer>
   );
 };
 
 // 6. Roadside Standard
 const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, params?: any) => void }) => {
   return (
-    <div className="bg-slate-50 min-h-full">
-      <Header title="Roadside Assistance" onBack={() => navigate('emergency_hub')} rightElement={<Icons.Help className="w-6 h-6 text-brand-600 bg-brand-100 rounded-full p-1" />} />
+    <StaggerContainer className="bg-slate-50 min-h-full">
+      <FadeInItem>
+        <Header title="Roadside Assistance" onBack={() => navigate('emergency_hub')} rightElement={<Icons.Help className="w-6 h-6 text-brand-600 bg-brand-100 rounded-full p-1" />} />
+      </FadeInItem>
       <div className="p-6">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Standard Services</h1>
-        <p className="text-slate-500 mb-6">Select the service you need help with right now.</p>
+        <FadeInItem>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Standard Services</h1>
+          <p className="text-slate-500 mb-6">Select the service you need help with right now.</p>
+        </FadeInItem>
 
-        <div className="bg-brand-50 rounded-3xl p-6 flex gap-5 mb-8">
+        <ScaleInItem className="bg-brand-50 rounded-3xl p-6 flex gap-5 mb-8">
           <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0">
             <Icons.Settings className="w-8 h-8 text-brand-600 rotate-45" />
           </div>
@@ -908,7 +948,7 @@ const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, p
             <h3 className="font-bold text-xl text-slate-900">Pricing Information</h3>
             <p className="text-base text-slate-600 mt-2 leading-relaxed">These services are <span className="font-bold text-brand-600">Free</span> with your Roadside Plus Add-on. Without the add-on, standard market rates apply.</p>
           </div>
-        </div>
+        </ScaleInItem>
 
         <div className="space-y-4">
           {[
@@ -917,36 +957,36 @@ const RoadsideStandardScreen = ({ navigate }: { navigate: (screen: ScreenName, p
             { name: 'Flat Tire Change', sub: 'Spare tire installation', icon: Icons.Settings },
             { name: 'Fuel Delivery', sub: 'Emergency fuel top-up', icon: Icons.Fuel },
           ].map((s, i) => (
-            <div
+            <FadeInItem
               key={i}
-              onClick={() => navigate('success_confirmation', { type: 'roadside', title: `${s.name} Requested`, message: 'A specialist is on their way to your location.' })}
-              className="bg-white rounded-3xl p-6 flex items-center justify-between shadow-sm active:scale-[0.98] transition-transform cursor-pointer"
             >
-              <div>
-                <h3 className="font-bold text-xl text-slate-900">{s.name}</h3>
-                <p className="text-slate-500 text-base">{s.sub}</p>
+              <div
+                onClick={() => navigate('success_confirmation', { type: 'roadside', title: `${s.name} Requested`, message: 'A specialist is on their way to your location.' })}
+                className="bg-white rounded-3xl p-6 flex items-center justify-between shadow-sm active:scale-[0.98] transition-transform cursor-pointer"
+              >
+                <div>
+                  <h3 className="font-bold text-xl text-slate-900">{s.name}</h3>
+                  <p className="text-slate-500 text-base">{s.sub}</p>
+                </div>
+                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100">
+                  <s.icon className="w-8 h-8 text-slate-700" />
+                </div>
               </div>
-              <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100">
-                <s.icon className="w-8 h-8 text-slate-700" />
-              </div>
-            </div>
+            </FadeInItem>
           ))}
         </div>
       </div>
-    </div>
+    </StaggerContainer>
   );
 };
 
 // 9. Success Confirmation Screen - Context Aware
 const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) => void, params?: any }) => {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setShow(true), 100);
-  }, []);
+  // Removed manual show state as StaggerContainer handles entry animations
 
   // Determine the type of success screen
   const screenType = params?.type || 'simple'; // 'navigation', 'roadside', 'charging', 'simple'
+  const isCharging = screenType === 'charging';
 
   // Get the appropriate pin icon based on type
   const getPinIcon = () => {
@@ -967,7 +1007,7 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
       case 'navigation':
         return 'bg-green-500';
       case 'charging':
-        return 'bg-yellow-500';
+        return 'bg-slate-900';
       case 'roadside':
         return 'bg-slate-900';
       default:
@@ -983,40 +1023,35 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
   };
 
   return (
-    <div className="bg-white min-h-full flex flex-col relative overflow-hidden">
-      {/* Top Map Section (40%) */}
-      <div className="absolute top-0 left-0 right-0 h-[45%] z-0">
+    <StaggerContainer className="min-h-full flex flex-col relative overflow-hidden bg-white">
+      {/* Top Map Section (45%) */}
+      <FadeInItem className="absolute top-0 left-0 right-0 h-[45%] z-0">
         <MapContainer className="h-full w-full" zoom={1.2}>
-          {/* Back Button */}
-          <button
-            onClick={() => navigate('home')}
-            className="absolute top-14 left-5 z-30 bg-white/90 backdrop-blur-md p-2.5 rounded-full shadow-md active:scale-95 transition-transform text-slate-700 hover:text-slate-900"
-          >
-            <Icons.ArrowLeft className="w-6 h-6" />
-          </button>
+          {/* Back Button Removed as per user request */}
 
           {/* Dynamic Pin based on type */}
-          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 ${show ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="relative">
-              <div className={`w-12 h-12 ${getPinColor()} rounded-full border-4 border-white shadow-xl flex items-center justify-center z-20 relative`}>
+              {isCharging && (
+                <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping scale-150" />
+              )}
+              <div className={`w-12 h-12 ${getPinColor()} rounded-full border-4 ${isCharging ? 'border-slate-800 shadow-[0_0_20px_rgba(34,197,94,0.3)]' : 'border-white shadow-xl'} flex items-center justify-center z-20 relative`}>
                 {getPinIcon()}
               </div>
               <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 ${getPinColor()} rotate-45 z-10`}></div>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md text-[10px] font-bold mt-2 whitespace-nowrap">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 px-2 py-1 rounded-md shadow-md text-[10px] font-bold mt-2 whitespace-nowrap bg-white text-slate-900">
                 {screenType === 'navigation' ? 'Destination' : screenType === 'roadside' ? '3 min away' : 'Active'}
               </div>
             </div>
           </div>
         </MapContainer>
-        {/* Gradient Overlay for better text contrast if needed, or just to blend */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-10" />
-      </div>
+      </FadeInItem>
 
       {/* Bottom Sheet Details (60%) */}
-      <div className={`absolute bottom-0 left-0 right-0 h-[60%] bg-white rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-50 flex flex-col transition-transform duration-500 ${show ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 shrink-0" />
+      <FadeInItem className="absolute bottom-0 left-0 right-0 h-[60%] rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-50 flex flex-col bg-white">
+        <div className="w-12 h-1.5 rounded-full mx-auto mt-4 mb-2 shrink-0 bg-slate-200" />
 
-        <div className="flex-1 overflow-y-auto px-6 pb-6 pt-2">
+        <div className="flex-1 overflow-y-auto px-6 pb-24 pt-2">
           {/* Header */}
           <div className="flex justify-between items-start mb-6">
             <div>
@@ -1025,20 +1060,20 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
                 <p className="text-slate-500 text-sm mt-1">{params.message}</p>
               )}
             </div>
-            <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+            <div className={`${isCharging ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-green-100 text-green-700'} px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1`}>
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Active
+              {isCharging ? 'Dispatch Confirmed' : 'Active'}
             </div>
           </div>
 
-          {/* ETA Card - Always shown */}
-          <div className="bg-slate-50 rounded-2xl p-4 flex items-center justify-between mb-6 border border-slate-100">
+          {/* ETA Card */}
+          <div className="bg-slate-50 border-slate-100 rounded-2xl p-4 flex items-center justify-between mb-6 border">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-900">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm bg-white text-slate-900">
                 <Icons.Clock className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-bold uppercase">{getEtaLabel()}</p>
+                <p className="text-xs font-bold uppercase text-slate-500">{getEtaLabel()}</p>
                 <p className="text-lg font-bold text-slate-900">
                   {screenType === 'navigation' ? '12 min drive' : '10:42 AM'} <span className="text-slate-400 font-normal text-sm">{screenType !== 'navigation' && '(12 min)'}</span>
                 </p>
@@ -1046,10 +1081,48 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
             </div>
           </div>
 
-          {/* NAVIGATION TYPE - Show destination details, NO service provider */}
+          {/* CHARGING TYPE - Premium Driver Card (Light Theme) */}
+          {isCharging && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-bold text-slate-900 mb-3">Service Provider</h3>
+                <div className="bg-slate-50 border border-slate-100 rounded-3xl p-5 flex items-center gap-4">
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-green-500">
+                      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Driver" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded border border-white">
+                      4.9 ★
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg text-slate-900">Michael Chen</h3>
+                    <p className="text-brand-600 text-sm">Mobile Charging Specialist</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors text-slate-600 border border-slate-100">
+                      <Icons.Phone className="w-5 h-5" />
+                    </button>
+                    <button className="w-10 h-10 bg-brand-600 rounded-full flex items-center justify-center text-white hover:bg-brand-700 transition-colors shadow-lg shadow-brand-500/20">
+                      <Icons.Message className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-brand-50 border border-brand-100 p-4 rounded-2xl flex gap-3 items-start">
+                <Icons.Zap className="w-5 h-5 text-brand-600 shrink-0 mt-0.5 fill-current" />
+                <div>
+                  <h4 className="font-bold text-sm text-brand-900">Power Van Dispatched</h4>
+                  <p className="text-xs text-brand-700 mt-1 leading-relaxed">Equipped with 150kW DC fast charger. Estimated +50km range in 15 mins.</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* NAVIGATION TYPE */}
           {screenType === 'navigation' && (
             <>
-              {/* Destination Info */}
               <div className="mb-6">
                 <h3 className="font-bold text-slate-900 mb-3">Destination</h3>
                 <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
@@ -1066,7 +1139,6 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
                 </div>
               </div>
 
-              {/* Directions */}
               <div className="mb-6">
                 <h3 className="font-bold text-slate-900 mb-3">Route Overview</h3>
                 <div className="space-y-3">
@@ -1078,30 +1150,14 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-bold">2</div>
                     <p className="text-sm text-slate-700">Turn right at the next intersection</p>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
-                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm font-bold">
-                      <Icons.Check className="w-4 h-4" />
-                    </div>
-                    <p className="text-sm text-slate-700">Arrive at destination on your right</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Charger Info */}
-              <div className="mb-6 bg-green-50 p-4 rounded-2xl flex gap-3 items-start">
-                <Icons.Zap className="w-5 h-5 text-green-600 shrink-0 mt-0.5 fill-current" />
-                <div>
-                  <h4 className="font-bold text-sm text-green-900">Fast Charger Available</h4>
-                  <p className="text-xs text-green-700 mt-1 leading-relaxed">150kW DC fast charging • Approximately 30 minutes to full charge.</p>
                 </div>
               </div>
             </>
           )}
 
-          {/* ROADSIDE TYPE - Show service provider */}
+          {/* ROADSIDE TYPE */}
           {screenType === 'roadside' && (
             <>
-              {/* Driver/Provider Info */}
               <div className="mb-6">
                 <h3 className="font-bold text-slate-900 mb-3">Service Provider</h3>
                 <div className="flex items-center justify-between">
@@ -1125,7 +1181,6 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
                 </div>
               </div>
 
-              {/* Vehicle Details */}
               <div className="mb-6">
                 <h3 className="font-bold text-slate-900 mb-3">Vehicle Details</h3>
                 <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
@@ -1138,134 +1193,40 @@ const SuccessScreen = ({ navigate, params }: { navigate: (screen: ScreenName) =>
                   </div>
                 </div>
               </div>
-
-              {/* What Happens Next */}
-              <div className="mb-6">
-                <h3 className="font-bold text-slate-900 mb-3">What Happens Next?</h3>
-                <div className="space-y-4">
-                  <div className="flex gap-3">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">1</div>
-                    <p className="text-sm text-slate-600">Driver arrives at your location</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">2</div>
-                    <p className="text-sm text-slate-600">Quick vehicle inspection</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">3</div>
-                    <p className="text-sm text-slate-600">Service performance & completion</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Safety Note */}
-              <div className="mb-6 bg-blue-50 p-4 rounded-2xl flex gap-3 items-start">
-                <Icons.Shield className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-sm text-blue-900">Safety First</h4>
-                  <p className="text-xs text-blue-700 mt-1 leading-relaxed">Please stay in a safe location away from traffic while waiting for assistance. Keep your hazard lights on.</p>
-                </div>
-              </div>
             </>
           )}
 
-          {/* CHARGING TYPE - Show power van details */}
-          {screenType === 'charging' && (
-            <>
-              {/* Power Van Info */}
-              <div className="mb-6">
-                <h3 className="font-bold text-slate-900 mb-3">Power Van</h3>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center">
-                      <Icons.Zap className="w-7 h-7 text-yellow-600 fill-current" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900">Mobile Charger #24</h4>
-                      <div className="flex items-center gap-1 text-xs text-slate-500">
-                        <span className="font-bold text-green-600">Available</span>
-                        <span>•</span>
-                        <span>150kW Capacity</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/30 active:scale-95 transition-transform">
-                    <Icons.Phone className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Charging Details */}
-              <div className="mb-6">
-                <h3 className="font-bold text-slate-900 mb-3">Charging Request</h3>
-                <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-500">Requested Range</span>
-                    <span className="font-medium text-slate-900">+50 km</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-500">Charging Time</span>
-                    <span className="font-medium text-slate-900">~20 min</span>
-                  </div>
-                  <div className="border-t border-slate-200 my-2 pt-2 flex justify-between font-bold">
-                    <span className="text-slate-900">Estimated Cost</span>
-                    <span className="text-brand-600">QAR 165.00</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* EV Safety Note */}
-              <div className="mb-6 bg-yellow-50 p-4 rounded-2xl flex gap-3 items-start">
-                <Icons.Zap className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5 fill-current" />
-                <div>
-                  <h4 className="font-bold text-sm text-yellow-900">EV Certified</h4>
-                  <p className="text-xs text-yellow-700 mt-1 leading-relaxed">Our mobile charging units are certified for all EV models and use standard CCS connectors.</p>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* SIMPLE TYPE - Just a confirmation message */}
+          {/* SIMPLE TYPE */}
           {screenType === 'simple' && (
-            <>
-              {/* Simple confirmation */}
-              <div className="mb-6 bg-green-50 p-6 rounded-2xl text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icons.Check className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="font-bold text-lg text-green-900 mb-2">All Set!</h3>
-                <p className="text-sm text-green-700">{params?.message || 'Your request has been processed successfully.'}</p>
+            <div className="mb-6 bg-green-50 p-6 rounded-2xl text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icons.Check className="w-8 h-8 text-green-600" />
               </div>
-
-              {/* What's Next */}
-              <div className="mb-6">
-                <h3 className="font-bold text-slate-900 mb-3">What's Next?</h3>
-                <p className="text-sm text-slate-600 mb-4">You'll receive updates on your request via notifications. Check back anytime for status.</p>
-              </div>
-            </>
+              <h3 className="font-bold text-lg text-green-900 mb-2">All Set!</h3>
+              <p className="text-sm text-green-700">{params?.message || 'Your request has been processed successfully.'}</p>
+            </div>
           )}
-
         </div>
-      </div>
+      </FadeInItem>
 
       {/* Actions - Sticky Footer */}
-      <div className="p-6 pt-2 bg-white border-t border-slate-50">
+      <div className="absolute bottom-0 left-0 right-0 p-6 pt-2 border-t z-[60] bg-white border-slate-50">
         <div className="flex gap-3">
           <button
             onClick={() => navigate('home')}
-            className="flex-1 py-4 rounded-2xl font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 transition-colors"
+            className="flex-1 py-4 rounded-2xl font-bold transition-colors bg-slate-50 text-slate-500 hover:bg-slate-100"
           >
             {screenType === 'navigation' ? 'Cancel' : 'Back'}
           </button>
           <button
             onClick={() => navigate('home')}
-            className="flex-[2] py-4 rounded-2xl font-bold text-white bg-slate-900 shadow-xl shadow-slate-200 active:scale-95 transition-transform"
+            className="flex-[2] py-4 rounded-2xl font-bold shadow-xl active:scale-95 transition-transform bg-slate-900 text-white shadow-slate-200"
           >
-            {screenType === 'navigation' ? 'Open Maps' : 'Done'}
+            {isCharging ? 'Track Live Location' : (screenType === 'navigation' ? 'Open Maps' : 'Done')}
           </button>
         </div>
       </div>
-    </div>
+    </StaggerContainer>
   );
 };
 
@@ -1381,7 +1342,7 @@ export default function App() {
     switch (currentScreen) {
       case 'home': return <HomeScreen navigate={navigate} />;
       case 'city': return <CityScreen navigate={navigate} />;
-      case 'market': return <MarketScreen navigate={handleBack} />;
+      case 'market': return <MarketScreen navigate={navigate} />;
       case 'insurance_hub': return <InsuranceScreen navigate={navigate} />;
       case 'insurance_detail': return <PolicyScreen navigate={navigate} />;
       case 'emergency_hub': return <EmergencyScreen navigate={navigate} />;
@@ -1389,9 +1350,9 @@ export default function App() {
       case 'ev_assistance': return <EVAssistanceScreen navigate={navigate} />;
       case 'charging_navigator': return <ChargingNavigatorScreen navigate={navigate} />;
       case 'ev_towing': return <EVTowingScreen navigate={navigate} />;
-      case 'mobile_charging': return <MobileChargingScreen navigate={handleBack} />;
+      case 'mobile_charging': return <MobileChargingScreen navigate={navigate} />;
       case 'success_confirmation': return <SuccessScreen navigate={navigate} params={currentParams} />;
-      case 'feature_placeholder': return <PlaceholderScreen navigate={handleBack} params={currentParams} />;
+      case 'feature_placeholder': return <PlaceholderScreen navigate={navigate} params={currentParams} />;
       default: return <HomeScreen navigate={navigate} />;
     }
   };
@@ -1407,7 +1368,9 @@ export default function App() {
       <div className="iphone-emulator">
         <div className="iphone-notch"></div>
         <div className={`iphone-screen ${showBottomNav ? 'pb-[90px]' : ''}`}>
-          {renderScreen()}
+          <AnimatePresence mode="wait">
+            {renderScreen()}
+          </AnimatePresence>
         </div>
         <div className="home-indicator"></div>
 

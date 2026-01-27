@@ -62,6 +62,7 @@ export const Icons = {
     Battery: Battery,
     Fuel: Fuel,
     MessageCircle: MessageCircle,
+    Message: MessageCircle,
     Check: Check,
     Clock: Clock,
     Star: Star,
