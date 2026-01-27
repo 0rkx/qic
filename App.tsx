@@ -1405,7 +1405,11 @@ export default function App() {
   return (
     <div style={{ transform: `scale(${scale})`, transformOrigin: 'center center', transition: 'transform 0.1s ease-out' }}>
       <div className="iphone-emulator">
-        <div className="iphone-notch"></div><div className="iphone-screen">{renderScreen()}</div><div className="home-indicator"></div>
+        <div className="iphone-notch"></div>
+        <div className={`iphone-screen ${showBottomNav ? 'pb-[90px]' : ''}`}>
+          {renderScreen()}
+        </div>
+        <div className="home-indicator"></div>
 
         {showBottomNav && (
           <div className="absolute bottom-0 left-0 right-0 bg-white z-40 pb-5">
